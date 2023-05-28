@@ -1,135 +1,191 @@
-import * as React from 'react';
-import {useState} from "react";
-import { Text, View, StyleSheet ,Image , TextInput ,Picker} from 'react-native';
-import {Checkbox} from "react-native-web";
+
+import { Picker, StyleSheet, Text, View, Image , TextInput, TouchableOpacity} from 'react-native';
+import { useState } from 'react';
+import {CheckBox} from 'react-native-web';
 
 export default function App() {
+  const [img, setImg] = useState(0);
+  const [impressao , setImpresao] = useState("")
+  const [forca, setForca] = useState(false)
+  const [p1, setP1] = useState(0)
+  const [p2, setP2] = useState(0)
+  const [pt1, setPt1] = useState(0)
+  const [pt2, setPt2] = useState(0)
 
-  const[nome, setNome] = useState();
-  const[telefone, setTel] = useState();
-  const[endereco, setEnd] = useState();
-  const[email, setEm] = useState();
-  
+  const pos =[
+    1,
+    2,
+    3,
+  ];
 
+  function jogar(p){
+    setP1(p)
+    let numAleatorio = Math.floor(Math.random() * 3)+1;
+    setP2(numAleatorio)
+    if(p==1 && numAleatorio==3){
+      let ponto = pt1+1;
+      setPt1(ponto)
+    }
+    if(p==2 && numAleatorio==1){
+      let ponto = pt1+1;
+      setPt1(ponto)
+    }  
+    if(p==3 && numAleatorio==2){
+      let ponto = pt1+1;
+      setPt1(ponto)
+    }  
+    if(p==3 && numAleatorio==1){
+      let ponto1 = pt2+1;
+      setPt2(ponto1)
+    }  
+    if(p==1 && numAleatorio==2){
+      let ponto1 = pt2+1;
+      setPt2(ponto1)
+    } 
+    if(p==2 && numAleatorio==3){
+      let ponto1 = pt2+1;
+      setPt2(ponto1)
+    }
+  }
+
+
+  function exibirImagem(numero){
+    if(numero==0){
+      return(<Image source={require('./assets/caixa floral.png')} style={styles.img2} />)
+    }
+    if(numero==1){
+      return(<Image source={require('./assets/pedra floral.png')} style={styles.img2} />)
+    }
+    if(numero==2){
+      return(<Image source={require('./assets/papel floral.png')} style={styles.img2} />)
+    }
+    if(numero==3){
+      return(<Image source={require('./assets/tesoura floral.png')} style={styles.img2} />)
+    }
+  }
+
+
+  function novo(){
+    setPt1(0)
+    setPt2(0)
+    setP1(0)
+    setP2(0)
+  }
 
   return (
-    <View style={styles.container}>
-        <Text style={styles.Text1}>Bem Vindo(a) Usuário(a):</Text>
-      <View> 
-      <Image
-        style={{width: 200, height: 200 ,margin:2 }}
-        source={ require("./assets/Logotipo2.png")}
-      /> 
-      </View>
-        <View style={styles.Tabela1}>
-        <Text style={styles.Text2}>Digite:</Text>
-
-          <TextInput style={styles.TextInput}
-            placeholder="Digite seu Nome:"
-            onChangeText={(text) => setNome(text)}
-          />
-        
-          <TextInput style={styles.TextInput}
-            placeholder="Digite seu Telefone:"
-            onChangeText={(text) => setTel(text)}
-          />
-
-          <TextInput style={styles.TextInput}
-            placeholder="Digite seu Endereço:"
-            onChangeText={(text) => setEnd(text)}
-          /> 
-
-         <TextInput style={styles.TextInput}
-            placeholder="Digite seu E-mail:"
-            onChangeText={(text) => setEm(text)}
-         />
+    <View style={styles.container} >
+      <View style={styles.area} >
+        <Image source={require('./assets/Pink Floral (1).png')} style={styles.img} />
       </View>
 
-        <View>
-          <Text style={{textAlign:'center', margin: 7,fontFamily:'Wellfleet'}}>Hobby:</Text>
-            <Picker style={{width:170,height:30}}>
-              <Picker.Item label="Programar" value="Programar"/>
-              <Picker.Item label="Ler" value="Ler"/>
-              <Picker.Item label="Cantar" value="Cantar"/>
-              <Picker.Item label="Dançar" value="Dançar"/>
-              <Picker.Item label="Comer" value="Comer"/>
-              <Picker.Item label="Viajar" value="Viajar"/>
-            </Picker>
-        </View>
-          <View style={styles.Tabela2}>
-            <Text style={styles.Check}>Nome:</Text>
-            <Text>{nome}</Text>
-            <Text style={styles.Check}>Telefone:</Text>
-            <Text>{telefone}</Text>
-            <Text style={styles.Check}>Endereço:</Text>
-            <Text>{endereco}</Text>
-            <Text style={styles.Check}>E-mail:</Text>
-            <Text>{email}</Text>
-            <Text style={styles.Check}>Hobby:</Text>
-            <Text style={styles.Check}>Aceito:</Text>
+      <View style={styles.area} >
+        <Text style={styles.txt} >PLACAR</Text>
+        <Text style={styles.txt} > <Text>{pt1}</Text>         <Text>{pt2}</Text> </Text>
+      </View>
+
+      <View style={styles.area} >
+        <Text>
+          {exibirImagem(p1)}
+          <TouchableOpacity onPress={()=>jogo()} >  
+            <View style={styles.btnArea} >
+              <Image source={require('./assets/versus.png')} style={styles.img4} />
+            </View>
+          </TouchableOpacity>
+          {exibirImagem(p2)}
+        </Text>
+      </View>
+
+      <View style={styles.area} >
+        <TouchableOpacity style={styles.botao} onPress={()=>novo()} >  
+          <View style={styles.btnArea}>
+            <Text style={styles.btnTexto}>NOVA PARTIDA</Text>
           </View>
-    </View> //principal
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.area} >
+        <Text>
+          <TouchableOpacity onPress={()=>jogar(1)} >  
+            <View style={styles.btnArea} >
+              <Image source={require('./assets/pedra floral.png')} style={styles.img2} />
+            </View>
+
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>jogar(2)} >  
+            <View style={styles.btnArea} >
+              <Image source={require('./assets/papel floral.png')} style={styles.img2} />
+            </View>
+
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>jogar(3)} >  
+            <View style={styles.btnArea} >
+              <Image source={require('./assets/tesoura floral.png')} style={styles.img2} />
+            </View>
+          </TouchableOpacity>
+        </Text>
+      </View>
+    </View>
   );
-}
+  }
+  
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
-    backgroundColor: '#D8326E',
+    backgroundColor: '#FA8072',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 
-  Text1: {
-     fontFamily:'Wellfleet',
-     fontSize: '20px',
-     margin: 20,
-     color:'#000',
+  btnArea: {
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
   },
 
-  Text2: {
-     fontFamily:'Wellfleet',
-     fontSize: '20px',
-     margin: 20,
-     color:'#000',
-     textAlign: 'center',
-     borderWidth:2,
-     borderRadius:3,
-     borderColor: '#FFD9D9',
-  },
-   
-  TextInput: {
-    borderWidth: 4,
-    fontFamily:'Wellfleet',
-    color:'#000000',
-    width: '100%',
-    height:'30%',
-    margin: 3,
-    borderRadius:3,
-    borderColor: '#FFD9D9',
-    marginLeft:1,
+  btnTexto: {
+    fontSize:18,
+    fontWeight:'bold',
+    textAlign: 'center',
   },
 
-  Check:{
-    borderStyle: 'solid',
-    color:'#000',
-    borderRadius:4,
-    width: '150px',
+  botao:{
+    backgroundColor:'#FE5655',
+    width:230,
+    height:50,
+    borderWidth:2,
+    margin:10
   },
 
-  Tabela1: {
-    borderColor: '#FFD9D9',
-    borderWidth: 2,
-    padding: 16,
-    borderRadius: 20,
-    marginTop: 2,
+  img:{
+    height:120,
+    width:370,
   },
 
-   Tabela2: {
-    borderColor: '#FFD9D9',
-    borderWidth: 2,
-    padding: 16,
-    borderRadius: 20,
-    marginTop: 22,
+  img2:{
+    height:70,
+    width:90,
+    marginLeft:15,
   },
-  
+
+
+  img4:{
+    height:80,
+    width:90,
+    marginLeft:15,
+  },
+
+  area:{
+    flex:1,
+  },
+
+  txt:{
+    color:'#0F9498',
+    fontFamily:'arial',
+    fontSize:35,
+    textAlign:'center',
+    fontWeight:'bold'
+  }
+
 });
 
